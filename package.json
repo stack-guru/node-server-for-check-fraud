@@ -1,0 +1,27 @@
+{
+  "name": "killbot-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "goldenhand0302@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "@maxmind/minfraud-api-node": "^4.7.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "ip-address-validator": "^1.0.9",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "node-device-detector": "^2.0.12",
+    "node-libcurl": "^3.0.0",
+    "nodemon": "^2.0.20",
+    "path": "^0.12.7"
+  }
+}
