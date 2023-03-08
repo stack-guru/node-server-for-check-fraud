@@ -3,6 +3,7 @@ const user = require('./controller/user');
 const api = require('./controller/api');
 
 module.exports = function(app) {
+    app.get('/getUsers', auth, user.getUsers);
     app.post('/login', user.login);
     app.post('/register', user.register);
 
@@ -11,4 +12,5 @@ module.exports = function(app) {
     app.get('/api/check-bin', api.checkBin);
     app.get('/api/check-mobile', api.checkMobile);
     app.get('/api/check-desktop', api.checkDesktop);
+    app.get('/api/check-phonenumber', api.checkPhoneNumber);
 }

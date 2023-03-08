@@ -7,14 +7,22 @@ const User = require("../model/user");
 exports.register = async (req, res) => {
     // Our register logic starts here
     try {
-
         console.log(req.body)
         // Get user input
-        const { first_name, last_name, email, password } = req.body;
+        const { name, email, password } = req.body;
 
         // Validate user input
-        if (!(email && password && first_name && last_name)) {
+        if (!(email && password && name)) {
             return res.status(400).send("All input is required");
+        }
+
+        var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).send("Email is not valid");
+        }
+
+        if (password.length < 12) {
+            return res.status(400).send("Password must be longer than 12");
         }
 
         // check if user already exist
@@ -30,25 +38,24 @@ exports.register = async (req, res) => {
 
         // Create user in our database
         const user = await User.create({
-            first_name,
-            last_name,
+            name,
             email: email.toLowerCase(), // sanitize: convert email to lowercase
             password: encryptedPassword,
         });
 
         // Create token
         const token = jwt.sign(
-            { user_id: user._id, email },
+            { user_id: user._id, email, user_role: user.role },
             process.env.TOKEN_KEY,
             {
                 expiresIn: "2h",
             }
         );
         // save user token
-        user.token = token;
+        // user.token = token;
 
         // return new user
-        res.status(201).json(user);
+        res.status(201).json(token);
     } catch (err) {
         console.log(err);
     }
@@ -62,7 +69,7 @@ exports.login = async (req, res) => {
 
         // Validate user input
         if (!(email && password)) {
-            res.status(400).send("All input is required");
+            return res.status(400).send("All input is required");
         }
         // Validate if user exist in our database
         const user = await User.findOne({ email });
@@ -70,7 +77,7 @@ exports.login = async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             // Create token
             const token = jwt.sign(
-                { user_id: user._id, email },
+                { user_id: user._id, email, user_role: user.role },
                 process.env.TOKEN_KEY,
                 {
                     expiresIn: "2h",
@@ -78,13 +85,22 @@ exports.login = async (req, res) => {
             );
 
             // save user token
-            user.token = token;
+            // user.token = token;
 
             // user
-            return res.status(200).json(user);
+            return res.status(200).json(token);
         }
         res.status(400).send("Invalid Credentials");
     } catch (err) {
         console.log(err);
+    }
+}
+
+exports.getUsers = async (re, res) => {
+    try {
+        const users = await User.find();
+        res.status(201).send(users)
+    } catch(err) {
+        console.log(err)
     }
 }
