@@ -1,5 +1,5 @@
 const auth = require("./middleware/auth");
-const checkApikey = require("./middleware/apiKey");
+const checkApikey = require("./middleware/apikey");
 const user = require('./controller/user');
 const api = require('./controller/api');
 
