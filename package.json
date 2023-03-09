@@ -10,6 +10,9 @@
   },
   "author": "goldenhand0302@gmail.com",
   "license": "ISC",
+  "engines": {
+    "node": "18.4.0"
+  },
   "dependencies": {
     "@maxmind/minfraud-api-node": "^4.7.0",
     "axios": "^1.3.4",
