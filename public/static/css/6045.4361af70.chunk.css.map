@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/6045.4361af70.chunk.css","mappings":"AAAA,wBACI,eAGJ,0BACI","sources":["components/ShortLinkMonitoring/style.module.scss"],"sourcesContent":[".smallFont {\r\n    font-size: 12px;\r\n}\r\n\r\n.visitorFont {\r\n    font-size: 24px;\r\n}\r\n"],"names":[],"sourceRoot":""}

@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunksashjs=self.webpackChunksashjs||[]).push([[7246],{37246:function(s,e,a){a.r(e);var n=a(72791),c=a(57689),i=a(80184);e.default=function(){return(0,i.jsx)(n.Fragment,{children:(0,i.jsx)("div",{className:"login-img",children:(0,i.jsx)("div",{className:"page",children:(0,i.jsx)(c.j3,{})})})})}}}]);
+//# sourceMappingURL=7246.048b71eb.chunk.js.map
