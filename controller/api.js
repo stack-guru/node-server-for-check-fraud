@@ -30,7 +30,7 @@ exports.checkIp = (req, res) => {
             })
         });
     } catch (error) {
-        console.log('minfraund transcation error = ', error)        
+        console.log('minfraund transcation error = ', error)
         return res.status(503).send(error)
     }
 
@@ -114,10 +114,25 @@ exports.checkBin = (req, res) => {
         return res.status(503).send(error)
     }
 
+    // // minFraud Score
+    // client.score(transaction).then(scoreResponse => {
+    //     console.log('score = ', scoreResponse)
+    //     return res.status(200).send(scoreResponse)
+    // }).catch(error => {
+    //     console.log('score error =', error)
+    //     return res.status(503).send(error)
+    // });
     // minFraud Insights
     client.insights(transaction).then(insightsResponse => {
-        // console.log('insights = ', insightsResponse)
-        res.status(200).send(insightsResponse)
+        console.log('insights = ', insightsResponse)
+        let result = {}
+
+        if (insightsResponse.riskScore == 1) {
+            result = {...insightsResponse, isValid: true}
+        } else if (insightsResponse.riskScore > 1) {
+            result = {...insightsResponse, isValid: true}
+        }
+        res.status(200).send(result)
     }).catch(error => {
         // console.log('insights error =', error)
         return res.status(503).send(error)
@@ -139,11 +154,18 @@ exports.checkPhoneNumber = async (req, res) => {
         return res.status(400).send("No Phonenumber")
     }
     const phoneNumber = req.query.number
-    axios.get(`https://api.apilayer.com/number_verification/validate?number=${phoneNumber}`, 
-                {headers: {'apiKey' : process.env.NUM_VERIFY_API_KEY}}).
-                then(response => {
-                    return res.status(200).send(response.data)
-                }).catch(err => {
-                    return res.status(503).send(err)
-                })  
+    axios.get(`https://api.apilayer.com/number_verification/validate?number=${phoneNumber}`,
+        { headers: { 'apiKey': process.env.NUM_VERIFY_API_KEY } }).
+        then(response => {
+            console.log(response.data.carrier)
+            let result = {}
+            if (response.data.carrier) {
+                result = { ...response.data, isRealPhoneNumber: true }
+            } else {
+                result = { ...response.data, isRealPhoneNumber: false }
+            }
+            return res.status(200).send(result)
+        }).catch(err => {
+            return res.status(503).send(err)
+        })
 }
