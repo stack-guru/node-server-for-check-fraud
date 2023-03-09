@@ -3,7 +3,7 @@ const app = require("./app");
 const server = http.createServer(app);
 
 const { API_PORT } = process.env;
-const port = process.env.PORT || API_PORT;
+const port = API_PORT || 4001;
 
 // server listening 
 server.listen(port, () => {
