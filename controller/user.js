@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { generateApiKey } = require('generate-api-key');
 
 // importing user context
 const User = require("../model/user");
@@ -41,6 +42,7 @@ exports.register = async (req, res) => {
             name,
             email: email.toLowerCase(), // sanitize: convert email to lowercase
             password: encryptedPassword,
+            apiKey: generateApiKey()
         });
 
         // Create token
@@ -77,7 +79,7 @@ exports.login = async (req, res) => {
         if (user && (await bcrypt.compare(password, user.password))) {
             // Create token
             const token = jwt.sign(
-                { user_id: user._id, email, user_role: user.role },
+                { user_id: user._id, email, user_role: user.role},
                 process.env.TOKEN_KEY,
                 {
                     expiresIn: "2h",
@@ -96,10 +98,32 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.getUsers = async (re, res) => {
+exports.getUsers = async (req, res) => {
     try {
         const users = await User.find();
         res.status(201).send(users)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+exports.generateApikey = async (req, res) => {
+    const { email } = req.body;    
+    const apiKey = generateApiKey()
+    try {
+        const user = await User.findOneAndUpdate({email}, {apiKey}, {new: true})
+        return res.status(200).json(user.apiKey)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+exports.getApikey = async (req, res) => {
+    const email = req.query.email
+
+    try {
+        const user = await User.findOne({email})
+        return res.status(200).json(user.apiKey)
     } catch(err) {
         console.log(err)
     }

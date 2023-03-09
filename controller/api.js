@@ -2,8 +2,7 @@ const { isIPAddress, isIPV6Address, isIPV4Address, ipVersion } = require('ip-add
 const DeviceDetector = require('node-device-detector');
 const DeviceHelper = require('node-device-detector/helper');
 const minFraud = require('@maxmind/minfraud-api-node');
-const { Curl } = require('node-libcurl');
-
+const axios = require('axios');
 const client = new minFraud.Client(process.env.minfraudAccountId, process.env.minfraudApiKey);
 
 const detector = new DeviceDetector({
@@ -28,11 +27,7 @@ exports.checkIp = (req, res) => {
         transaction = new minFraud.Transaction({
             device: new minFraud.Device({
                 ipAddress: ipAdress,
-            }),
-            // email: new minFraud.Email({
-            //     address: 'betrebekke@gufum.com',
-            //     domain: 'gufum.com',
-            // }),
+            })
         });
     } catch (error) {
         console.log('minfraund transcation error = ', error)        
@@ -144,6 +139,11 @@ exports.checkPhoneNumber = async (req, res) => {
         return res.status(400).send("No Phonenumber")
     }
     const phoneNumber = req.query.number
-      
-    console.log('phonenumber = ', phoneNumber)
+    axios.get(`https://api.apilayer.com/number_verification/validate?number=${phoneNumber}`, 
+                {headers: {'apiKey' : process.env.NUM_VERIFY_API_KEY}}).
+                then(response => {
+                    return res.status(200).send(response.data)
+                }).catch(err => {
+                    return res.status(503).send(err)
+                })  
 }
