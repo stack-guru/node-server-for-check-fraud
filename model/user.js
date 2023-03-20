@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   apiKey: {type: String},
   token: { type: String },
+  active: {type: Boolean, default: true}
 });
 
 module.exports = mongoose.model("user", userSchema);

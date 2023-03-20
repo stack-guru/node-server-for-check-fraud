@@ -76,7 +76,7 @@ exports.login = async (req, res) => {
         // Validate if user exist in our database
         const user = await User.findOne({ email });
 
-        if (user && (await bcrypt.compare(password, user.password))) {
+        if (user && (await bcrypt.compare(password, user.password)) && user.active) {
             // Create token
             const token = jwt.sign(
                 { user_id: user._id, email, user_role: user.role},
@@ -89,7 +89,6 @@ exports.login = async (req, res) => {
             // save user token
             // user.token = token;
 
-            // user
             return res.status(200).json(token);
         }
         res.status(400).send("Invalid Credentials");
@@ -123,7 +122,33 @@ exports.getApikey = async (req, res) => {
 
     try {
         const user = await User.findOne({email})
+
+        console.log(user)
         return res.status(200).json(user.apiKey)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+exports.changeActive = async (req, res) => {
+    const userId = req.body.userId
+    const status = req.body.status
+
+    try {
+        const user = await User.findOneAndUpdate({_id: userId}, {active: status}, {new: true})
+        return res.status(200).json(user)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+exports.changeRole = async (req, res) => {
+    const email = req.body.email
+    const role = req.body.role
+
+    try {
+        const user = await User.findOneAndUpdate({email}, {role}, {new: true})
+        return res.status(200).json(user)
     } catch(err) {
         console.log(err)
     }

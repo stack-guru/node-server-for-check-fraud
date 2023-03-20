@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/7210.2ad8c487.chunk.css","mappings":"AACA,iCAGI,oBAEA","sources":["components/bootstrap/DropDowns/DropDowns.module.scss"],"sourcesContent":["\r\n.splitbtn-pill{\r\n    padding-top: 0; \r\n    padding-bottom: 0;\r\n    border-radius: 10rem;\r\n    padding-left: 1.5em;\r\n    padding-right: 1.5em;\r\n}"],"names":[],"sourceRoot":""}

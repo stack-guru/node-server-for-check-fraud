@@ -22,11 +22,14 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "generate-api-key": "^1.0.2",
+    "googleapis": "^113.0.0",
     "ip-address-validator": "^1.0.9",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0",
     "node-device-detector": "^2.0.12",
     "nodemon": "^2.0.20",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "randomstring": "^1.2.3",
+    "valid-url": "^1.0.9"
   }
 }

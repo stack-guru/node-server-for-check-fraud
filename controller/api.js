@@ -69,7 +69,7 @@ exports.checkMail = (req, res) => {
     const email = req.query.email
 
     if (!email.match(validRegex)) {
-        return res.status(400).send("Email is not valid")
+        return res.status(403).send("Email is not valid")
     }
 
     let transaction
@@ -128,9 +128,9 @@ exports.checkBin = (req, res) => {
         let result = {}
 
         if (insightsResponse.riskScore == 1) {
-            result = {...insightsResponse, isValid: true}
+            result = { ...insightsResponse, isValid: true }
         } else if (insightsResponse.riskScore > 1) {
-            result = {...insightsResponse, isValid: true}
+            result = { ...insightsResponse, isValid: true }
         }
         res.status(200).send(result)
     }).catch(error => {
