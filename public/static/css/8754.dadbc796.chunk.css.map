@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/8754.dadbc796.chunk.css","mappings":"AAEA,8BACI","sources":["components/Dashboard/Dashboard.module.scss"],"sourcesContent":[".Dashboard {}\r\n\r\n.visitorIcon {\r\n    font-size: 52px;\r\n}"],"names":[],"sourceRoot":""}
