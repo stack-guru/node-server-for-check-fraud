@@ -6,6 +6,7 @@ const user = require('./controller/user');
 const package = require('./controller/package');
 const shortlink = require('./controller/shortlink');
 const api = require('./controller/api');
+const ga = require('./controller/ga');
 
 module.exports = function(app) {
     // users routes
@@ -36,8 +37,12 @@ module.exports = function(app) {
     app.get('/api/check-mobile', checkApikey, api.checkMobile);
     app.get('/api/check-desktop', checkApikey, api.checkDesktop);
 
+    // ga
+    app.get('/analytics/getWeekData', ga.getWeekData)
+    app.get('/analytics/getGraphData', ga.getGraphData)
+
     // shortlink routes
     app.get('/:shortlink', shortlink.redirect);
-
+    
     app.get('/api/test', (req, res) => res.send("Hello World!"))
 }
