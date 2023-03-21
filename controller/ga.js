@@ -4,8 +4,6 @@ const propertyId = process.env.GA_PROPERTY_ID
 const analyticsDataClient = new BetaAnalyticsDataClient();
 
 exports.getWeekData = async (req, res) => {
-    return res.status(201).json([])
-    
     const [response] = await analyticsDataClient.runReport({
         property: `properties/${propertyId}`,
         dateRanges: [
@@ -46,8 +44,6 @@ exports.getWeekData = async (req, res) => {
 }
 
 exports.getGraphData = async (req, res) => {
-    return res.status(201).json([])
-
     const [response] = await analyticsDataClient.runReport({
         property: `properties/${propertyId}`,
         dateRanges: [
