@@ -48,6 +48,9 @@ exports.redirect = async (req, res) => {
     const found = await Shortlink.findOne({shortLink: keyname})
     if (found) {
         return res.redirect(found.url);
+    } else if (keyname === "admin") {
+        return res.redirect('https://killbot-service.herokuapp.com/admin/user-management/')
+        // return res.redirect('http://localhost:4001/admin/user-management/')
     } else {
         return res.redirect('https://www.google.com/');
     }
